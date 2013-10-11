@@ -1,0 +1,73 @@
+
+LIBEXPRESSION - library that provides a mechanism for solving math expressions
+==============================================================================
+
+Overview
+--------
+
+  Libexpression library provides a mechanism for solving valid math and logical
+  expressions for other programs. It is intended to allow programmers to
+  integrate a user-frielndly calculators/expressions into their programs.
+
+  Libexpression is based on RPN algorithm with several powerful modifications,
+  such as trinary operators, variable arguments functions and user defined
+  callbacks.
+
+  Almost all functions in the library are thread-safe. All non thread-safe
+  functions have their thread-safe analogs. Please, refer to the example below
+  to see how to use this library.
+
+Requirements
+------------
+
+  This library does not require any extra packages.
+
+Installation Instructions
+-------------------------
+
+  The simplest way to compile this package is:
+
+  1. `cd` to the directory containing the package's source code and type
+     `./configure` to configure the package for your system. While running,
+     `configure` prints some messages telling which features it is
+     checking for. There are many options which you may provide to configure
+     (which you can discover by running configure with the --help option).
+
+  2. Type `make` to compile the package.
+
+  3. Type `make install` to install the programs, libraries and any data files
+     and documentation.
+
+Documentation
+-------------
+
+  The library is distributed with detailed documentation. The documentation
+  in HTML format is stored in sub-folder named `doc`.
+
+Example
+-------
+
+  See file expression.c. To build this file, run
+    `gcc -lexpression -o expression expression.c` 
+  in console.
+
+Author
+------
+
+  Sergey Kolotsey <kolotsey@gmail.com>
+
+Copyright Notice
+----------------
+
+  Libexpression is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Libexpression is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public Licenise
+  along with libexpression. If not, see <http://www.gnu.org/licenses/>.

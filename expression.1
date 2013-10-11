@@ -1,0 +1,52 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH EXPRESSION 1 "January 18, 2012"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+expression \- console calculator based on RPN algorithm
+.SH SYNOPSIS
+.B expression
+"EXPR"
+.SH DESCRIPTION
+.B expression
+is a program that calculates math and logical expressions. The program is build using
+.B libexpression
+library and could be considered as an example of usage of this library.
+.br
+
+.B expression
+program takes the first argument, parses it, converts to RPN and tries to solve it.
+The other arguments are skipped. The result is written to the stdout. If the provided
+expression could not be solved, the error message is printed to stderr and non-zero error
+code is returned.
+.br
+
+The first argument should contain a well-formed math or logical expression. A well-formed
+expression is an expression in C notation.
+.br
+
+Please see
+.B libexpression
+manual for the list of supported operators and functions.
+.SH EXAMPLES
+.TP
+expression "2+2*2"
+Returns 6.
+.TP
+expression "0xff+5*((-2)^7-3/2) > cos(90*PI/180)? True : False"
+Returns False.
+.SH AUTHOR
+Sergey Kolotsey <kolotsey@gmail.com>.
