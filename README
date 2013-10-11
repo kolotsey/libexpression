@@ -47,8 +47,67 @@ Documentation
 Example
 -------
 
-  See file expression.c. To build this file, run
-    `gcc -lexpression -o expression expression.c` 
+	/*
+	 * This example creates an `expression_t' structure
+	 * and calls solving routine exp_solve(). After the expression is solved,
+	 * this routine prints the result and cleans up all previously allocated data.
+	 */
+	 
+	#include <libexpression.h>
+
+	int main( int argc, char *argv[]){
+		expression_t *exp;     //A structure that stores libexpression private data.
+		char error[EXP_ERLEN]; //A buffer where solving routine may store error messages. This buffer must be large enough.
+		int error_pos;         //Solving routine will store error position (if error occurs) in this variable.
+		exp_error_t ercode;    //Solving routine will store error code (if error occurs) in this variable.
+		exp_value_t *v;        //Pointer to a structure containing result.
+		char *result;          //Pointer to a buffer with the result converted to a string
+		int ret=0;
+
+		//Create expression object
+		if(NULL==( exp=exp_create( "4/1-4/3+4/5-4/7+4/9-4/11+4/13-4/15+4/17-4/19+4/21", 
+				&ercode, error, &error_pos))){
+			ret=1;
+
+		}else{
+			//Pass expression object to a solving routive ang get result
+			if(NULL ==(v=exp_solve( exp, &ercode, error, &error_pos))){
+				ret=1;
+
+			}else{
+				//Solving routine returned result. That means, no error occured.
+				//Display the result to the user.
+				result=exp_value_to_string( v);
+
+				if( result){
+					printf("%s\n", result);
+
+				}else{
+					printf( error, 
+						"Result is invalid (e.g. result type is invalid or memory error)\n");
+					error_pos=-1;
+					ret=1;
+				}
+				//Free result structure
+				exp_value_free( v);
+			}
+			//Free expression private data
+			exp_free( exp);
+		}
+
+		//If any error occured while expression object was created
+		//or expression was solved, then `ret' variable is set to 1
+		//in this module. We check this variable and if it is set,
+		//then we display error message to the user
+		if( ret){
+			fprintf( stderr, "%s\n", error);
+		}
+		return ret;
+	}
+
+
+  See file expression.c for more complicated example. To build this file, run
+    `gcc -o expression expression.c -lexpression` 
   in console.
 
 Author
