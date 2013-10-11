@@ -1,6 +1,8 @@
 # Object files
 *.o
 *.ko
+*.lo
+*.la
 
 # Libraries
 *.lib
@@ -16,3 +18,14 @@
 *.exe
 *.out
 *.app
+
+# Produced by configure scritp
+config.log
+config.status
+.libs/
+libtool
+Makefile
+libexpression-config.h
+
+# Binaries
+expression
