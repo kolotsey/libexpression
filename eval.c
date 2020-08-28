@@ -63,6 +63,8 @@ static int is_number( char *s, int64_t *i, double *d){
 		int is_real=0;
 		int efound=0;
 		int pointfound=0;
+		int neg=0;
+		int signfound=0;
 
 		while( *p){
 			if( is_real){
@@ -82,6 +84,11 @@ static int is_number( char *s, int64_t *i, double *d){
 					if( *p=='.'){
 						is_real=1;
 						pointfound=1;
+					}else if(*p=='-' && !signfound){
+						neg=1;
+						signfound=1;
+					}else if(*p=='+' && !signfound){
+						signfound=1;
 					}else if( *p=='e' && (p-s>0) && ((*(p+1)=='+') || (*(p+1)=='-'))){
 						is_real=1;
 						efound=1;

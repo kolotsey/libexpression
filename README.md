@@ -1,1 +1,130 @@
-README
+
+LIBEXPRESSION - library that provides a mechanism for solving math expressions
+==============================================================================
+
+Overview
+--------
+
+  Libexpression library provides a mechanism for solving valid math and logical
+  expressions for other programs. It is intended to allow programmers to
+  integrate a user-frielndly calculators/expressions into their programs.
+
+  Libexpression is based on RPN algorithm with several powerful modifications,
+  such as trinary operators, variable arguments functions and user defined
+  callbacks.
+
+  Almost all functions in the library are thread-safe. All non thread-safe
+  functions have their thread-safe analogs. Please, refer to the example below
+  to see how to use this library.
+
+Requirements
+------------
+
+  This library does not require any extra packages.
+
+Installation Instructions
+-------------------------
+
+  The simplest way to compile this package is:
+
+  1. `cd` to the directory containing the package's source code and type
+     `./configure` to configure the package for your system. While running,
+     `configure` prints some messages telling which features it is
+     checking for. There are many options which you may provide to configure
+     (which you can discover by running configure with the --help option).
+
+  2. Type `make` to compile the package.
+
+  3. Type `make install` to install the programs, libraries and any data files
+     and documentation.
+
+Documentation
+-------------
+
+  The library is distributed with detailed documentation. The documentation
+  in HTML format is stored in sub-folder named `doc`.
+
+Example
+-------
+  This example creates an `expression_t' structure
+  and calls solving routine exp_solve(). After the expression is solved,
+  this routine prints the result and cleans up all previously allocated data.
+
+
+	#include <libexpression.h>
+
+	int main( int argc, char *argv[]){
+		expression_t *exp;     //A structure that stores libexpression private data.
+		char error[EXP_ERLEN]; //A buffer where solving routine may store error messages. This buffer must be large enough.
+		int error_pos;         //Solving routine will store error position (if error occurs) in this variable.
+		exp_error_t ercode;    //Solving routine will store error code (if error occurs) in this variable.
+		exp_value_t *v;        //Pointer to a structure containing result.
+		char *result;          //Pointer to a buffer with the result converted to a string
+		int ret=0;
+
+		//Create expression object
+		if(NULL==( exp=exp_create( "4/1-4/3+4/5-4/7+4/9-4/11+4/13-4/15+4/17-4/19+4/21", 
+				&ercode, error, &error_pos))){
+			ret=1;
+
+		}else{
+			//Pass expression object to a solving routive ang get result
+			if(NULL ==(v=exp_solve( exp, &ercode, error, &error_pos))){
+				ret=1;
+
+			}else{
+				//Solving routine returned result. That means, no error occured.
+				//Display the result to the user.
+				result=exp_value_to_string( v);
+
+				if( result){
+					printf("%s\n", result);
+
+				}else{
+					printf( error, 
+						"Result is invalid (e.g. result type is invalid or memory error)\n");
+					error_pos=-1;
+					ret=1;
+				}
+				//Free result structure
+				exp_value_free( v);
+			}
+			//Free expression private data
+			exp_free( exp);
+		}
+
+		//If any error occured while expression object was created
+		//or expression was solved, then `ret' variable is set to 1
+		//in this module. We check this variable and if it is set,
+		//then we display error message to the user
+		if( ret){
+			fprintf( stderr, "%s\n", error);
+		}
+		return ret;
+	}
+
+
+  See file expression.c for more complicated example. To build this file, run
+    `gcc -o expression expression.c -lexpression` 
+  in console.
+
+Author
+------
+
+  Sergey Kolotsey <kolotsey@gmail.com>
+
+Copyright Notice
+----------------
+
+  Libexpression is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Libexpression is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public Licenise
+  along with libexpression. If not, see <http://www.gnu.org/licenses/>.

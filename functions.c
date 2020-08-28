@@ -1323,6 +1323,36 @@ static int call_strtoupper( token_t *op, value_t *ret){
 
 /**
  * @page string_functions
+ * @section capitalise capitalise(s)
+ *
+ * The function returns capitalised string with first letter converted to uppercase
+ */
+static int call_capitalise( token_t *op, value_t *ret){
+	int status;
+	char *s1;
+	int i, len;
+
+	if(NULL==op) return EXP_ER_INVALARGCLOW;
+	if( op->next) return EXP_ER_INVALARGCHIGH;
+
+	if(0 !=(status=exp_to_string( &op->param, &s1))){
+		return status;
+	}else{
+		len=strlen(s1);
+		if( len){
+			s1[0]=toupper(s1[0]);
+			for( i=1; i<len; i++){
+				s1[i]=tolower(s1[i]);
+			}
+		}
+		ret->value.string=s1;
+		ret->type=T_STRING;
+		return 0;
+	}
+}
+
+/**
+ * @page string_functions
  * @section substr substr(string, start, length)
  *
  * Returns the portion of @a @c string specified by @a @c start and @a @c length.
@@ -1512,8 +1542,9 @@ static struct function_table_s{
 	{ "strcasecmp", call_strcasecmp},
 	{ "strcmp",     call_strcmp},
 	{ "strlen",     call_strlen},
-	{ "strtolower", call_strtolower}, { "strlwr",     call_strtolower}, { "tolower",    call_strtolower},
-	{ "strtoupper", call_strtoupper}, { "strupr",     call_strtoupper}, { "toupper",    call_strtoupper},
+	{ "strtolower", call_strtolower}, { "strlwr",     call_strtolower}, { "tolower",    call_strtolower}, { "lowercase",    call_strtolower},
+	{ "strtoupper", call_strtoupper}, { "strupr",     call_strtoupper}, { "toupper",    call_strtoupper}, { "upeercase",    call_strtoupper},
+	{ "capitalise", call_capitalise},
 	{ "substr",     call_substr},
 	{ "substring",  call_substr},
 	{ "trim",       call_trim},
@@ -1608,10 +1639,10 @@ int exp_call_function( expression_t *exp, char *fname, int argc, token_t **stack
 		if( result->param.type==T_REAL && (-0==result->param.value.real)){
 			result->param.value.real=0;
 		}
-		if( result->param.type==T_REAL && 0==exp_is_integer( &result->param, &r)){
-			result->param.type=T_INTEGER;
-			result->param.value.integer=r;
-		}
+//		if( result->param.type==T_REAL){
+//			result->param.type=T_INTEGER;
+//			result->param.value.integer=r;
+//		}
 		exp_token_free(opqueue);
 		result->position=0;
 		result->next=s;

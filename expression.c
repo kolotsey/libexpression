@@ -245,7 +245,17 @@ int main( int argc, char *argv[]){
 			result=exp_value_to_string( v);
 
 			if( result){
-				printf("%s\n", result);
+				char type[1024]="";
+				if( v->type==EXP_BOOLEAN){
+					strcpy( type, " (bool)");
+				}else if( v->type==EXP_INTEGER){
+					strcpy( type, " (int)");
+				}else if( v->type==EXP_REAL){
+					strcpy( type, " (float)");
+				}else if( v->type==EXP_STRING){
+					strcpy( type, " (str)");
+				}
+				printf("%s%s\n", result, type);
 
 			}else{
 				printf( error, "Result is invalid (e.g. result type is invalid or memory error)\n");

@@ -46,13 +46,11 @@ Documentation
 
 Example
 -------
+  This example creates an `expression_t' structure
+  and calls solving routine exp_solve(). After the expression is solved,
+  this routine prints the result and cleans up all previously allocated data.
 
-	/*
-	 * This example creates an `expression_t' structure
-	 * and calls solving routine exp_solve(). After the expression is solved,
-	 * this routine prints the result and cleans up all previously allocated data.
-	 */
-	 
+
 	#include <libexpression.h>
 
 	int main( int argc, char *argv[]){
