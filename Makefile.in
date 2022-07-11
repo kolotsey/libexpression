@@ -65,7 +65,7 @@ API_HEADERS=libexpression.h
 LIB_HEADERS=libexpression.h libexpression-private.h libexpression-config.h
 LIB_SOURCES=eval.c functions.c libexpression.c rpn.c shunting-yard.c tokenizer.c
 LIB_OBJECTS=$(patsubst %.c,%.lo,$(LIB_SOURCES))
-LIB_BASENAME=$(shell ret="$(PACKAGE_NAME)" && echo $${ret\#lib})
+LIB_BASENAME=$(shell ret="$(PACKAGE_NAME)" && echo $${ret\#*lib})
 EXAMPLE_HEADERS=libexpression.h
 EXAMPLE_SOURCES=expression.c
 EXAMPLE_OBJECTS=$(patsubst %.c,%.o,$(EXAMPLE_SOURCES))
